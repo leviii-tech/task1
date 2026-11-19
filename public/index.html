@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopNova - Premium Modern E-Commerce Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <aside class="top-announcement">
+    <span>🎉 Special Launch Promo: Use code <strong>SAVE10</strong> for 10% off or <strong>WELCOME20</strong> for 20% off!</span>
+  </aside>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="container nav-bar">
+      <!-- Brand Logo -->
+      <a href="/index.html" class="brand-logo">
+        <div class="brand-icon"><i class="bi bi-bag-check-fill"></i></div>
+        <div class="brand-text">Shop<span>Nova</span></div>
+      </a>
+
+      <!-- Search Input -->
+      <form class="nav-search-form" id="mainSearchForm">
+        <input type="text" class="nav-search-input" placeholder="Search gadgets, audio, laptops, apparel...">
+        <button type="submit" class="nav-search-btn" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+
+      <!-- Nav Links & Actions -->
+      <nav class="nav-links" id="navLinks">
+        <a href="/index.html" class="nav-link-item active"><i class="bi bi-house"></i> Home</a>
+        <a href="#catalog" class="nav-link-item"><i class="bi bi-grid"></i> Products</a>
+        <a href="/orders.html" class="nav-link-item"><i class="bi bi-box-seam"></i> Orders</a>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:14px;">
+        <!-- Cart Drawer Toggle -->
+        <button class="nav-cart-btn" onclick="Cart.openDrawer()">
+          <i class="bi bi-bag"></i>
+          <span>Cart</span>
+          <span class="cart-counter-badge" style="display:none;">0</span>
+        </button>
+
+        <!-- User Profile / Auth Container -->
+        <div id="nav-auth-container">
+          <!-- Dynamically populated by auth.js -->
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Hero Banner -->
+      <section class="hero-banner">
+        <div>
+          <div class="hero-tag"><i class="bi bi-stars"></i> Next-Gen Lifestyle Tech</div>
+          <h1 class="hero-title">Elevate Your Everyday with <span>Precision Gear</span></h1>
+          <p class="hero-desc">Discover handpicked, audiophile-grade headphones, ultraportable laptops, artisan timepieces, and ergonomic workspace essentials engineered to inspire.</p>
+          <div class="hero-actions">
+            <a href="#catalog" class="btn btn-primary btn-lg"><i class="bi bi-bag-heart"></i> Shop Collection</a>
+            <button class="btn btn-outline btn-lg" style="color:#fff; border-color:rgba(255,255,255,0.3);" onclick="Auth.demoLogin('customer').then(() => showToast('Signed in as demo customer John Doe!', 'success'))">
+              <i class="bi bi-lightning-charge"></i> Quick Demo Login
+            </button>
+          </div>
+        </div>
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80" alt="Aura Pro Headphones" class="hero-img-main">
+          <div class="hero-floating-card">
+            <div class="icon"><i class="bi bi-shield-check"></i></div>
+            <div>
+              <div style="font-weight:700; font-size:0.85rem;">Certified Authentic</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);">2-Year Worldwide Warranty</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trust Badges Strip -->
+      <section class="features-strip">
+        <div class="feature-box">
+          <div class="feature-icon"><i class="bi bi-truck"></i></div>
+          <div class="feature-text">
+            <h4>Free Express Shipping</h4>
+            <p>On all domestic orders over $50</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon"><i class="bi bi-shield-lock"></i></div>
+          <div class="feature-text">
+            <h4>Secure Payments</h4>
+            <p>256-Bit SSL encrypted checkout</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon"><i class="bi bi-arrow-repeat"></i></div>
+          <div class="feature-text">
+            <h4>30-Day Easy Returns</h4>
+            <p>Hassle-free money back guarantee</p>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-icon"><i class="bi bi-headset"></i></div>
+          <div class="feature-text">
+            <h4>24/7 Dedicated Care</h4>
+            <p>Instant expert customer support</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Picks Carousel / Grid -->
+      <section class="section" style="padding-top:0;">
+        <div class="section-title-wrap">
+          <div>
+            <h2 class="section-title">Trending & Featured</h2>
+            <p class="section-subtitle">Top customer favorites with exceptional verified ratings</p>
+          </div>
+        </div>
+        <div class="products-grid" id="featuredProductsContainer">
+          <!-- Populated by products.js -->
+        </div>
+      </section>
+
+      <!-- Main Store Catalog Section -->
+      <section class="section" id="catalog">
+        <div class="section-title-wrap">
+          <div>
+            <h2 class="section-title">Explore Catalog</h2>
+            <p class="section-subtitle">Browse through our curated departments with real-time filters</p>
+          </div>
+        </div>
+
+        <!-- Category Filter Chips -->
+        <div class="category-chips" id="categoryChipsContainer">
+          <!-- Populated by products.js -->
+        </div>
+
+        <!-- Store Layout: Sidebar Filters + Products Grid -->
+        <div class="store-layout">
+          <!-- Left Sidebar Filters -->
+          <aside class="store-sidebar">
+            <!-- Categories -->
+            <div class="sidebar-block">
+              <div class="sidebar-title">
+                <span>Categories</span>
+              </div>
+              <ul class="filter-list" id="sidebarCategoryList">
+                <!-- Populated by products.js -->
+              </ul>
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="sidebar-block">
+              <div class="sidebar-title">
+                <span>Price Range ($)</span>
+              </div>
+              <form id="priceFilterForm">
+                <div class="price-inputs">
+                  <input type="number" id="minPriceInput" class="form-control" placeholder="Min" min="0">
+                  <span style="color:var(--text-muted);">-</span>
+                  <input type="number" id="maxPriceInput" class="form-control" placeholder="Max" min="0">
+                </div>
+                <button type="submit" class="btn btn-outline btn-sm btn-block" style="margin-top:12px;">Apply Filter</button>
+              </form>
+            </div>
+
+            <!-- Filter Reset -->
+            <div class="sidebar-block">
+              <button id="resetFiltersBtn" class="btn btn-light btn-sm btn-block">
+                <i class="bi bi-arrow-counterclockwise"></i> Reset All Filters
+              </button>
+            </div>
+
+            <!-- Demo Helper Box -->
+            <div style="background:var(--primary-light); border-radius:var(--radius-md); padding:16px; margin-top:20px; font-size:0.82rem; color:var(--primary);">
+              <strong style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+                <i class="bi bi-info-circle-fill"></i> Store Quick Tip
+              </strong>
+              Add items to your cart and test checkout. Use coupon <strong>SAVE10</strong> at checkout for 10% off!
+            </div>
+          </aside>
+
+          <!-- Right Products Section -->
+          <div>
+            <!-- Top Controls Bar -->
+            <div class="store-controls-header">
+              <div class="results-count" id="resultsCount">Loading inventory...</div>
+              <div class="sort-select-wrap">
+                <label for="sortSelect">Sort By:</label>
+                <select id="sortSelect" class="form-control" style="width: auto; padding: 6px 12px; font-size: 0.88rem;">
+                  <option value="featured">Featured / Top Rated</option>
+                  <option value="price_asc">Price: Low to High</option>
+                  <option value="price_desc">Price: High to Low</option>
+                  <option value="rating">Highest Customer Rating</option>
+                  <option value="newest">New Arrivals</option>
+                  <option value="title">Alphabetical (A-Z)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dynamic Product Grid -->
+            <div class="products-grid" id="productsGrid">
+              <!-- Populated by products.js -->
+            </div>
+
+            <!-- Pagination -->
+            <div id="paginationControls"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Slide-Over Shopping Cart Drawer -->
+  <div class="cart-drawer-backdrop" id="cartBackdrop" onclick="Cart.closeDrawer()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <div class="cart-drawer-title">
+        <i class="bi bi-bag-check" style="color:var(--primary);"></i>
+        <span>Shopping Cart</span>
+      </div>
+      <button class="cart-close-btn" onclick="Cart.closeDrawer()" aria-label="Close cart">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Free Shipping Progress -->
+    <div class="free-shipping-meter">
+      <div id="freeShippingText">Add items to unlock <strong>FREE Shipping!</strong></div>
+      <div class="shipping-progress-bar">
+        <div class="shipping-progress-fill" id="freeShippingProgress" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Scrollable Items List -->
+    <div class="cart-items-list" id="cartDrawerItems">
+      <!-- Populated by cart.js -->
+    </div>
+
+    <!-- Drawer Footer / Summary -->
+    <div class="cart-drawer-footer">
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span id="cartDrawerSubtotal">$0.00</span>
+      </div>
+      <div class="cart-summary-row" id="cartDrawerDiscountRow" style="display:none; color:var(--success);">
+        <span>Discount</span>
+        <span id="cartDrawerDiscountVal">-$0.00</span>
+      </div>
+      <div class="cart-summary-row">
+        <span>Shipping</span>
+        <span id="cartDrawerShipping">Calculated at checkout</span>
+      </div>
+      <div class="cart-summary-row total">
+        <span>Estimated Total</span>
+        <span id="cartDrawerTotal" style="color:var(--primary); font-size:1.3rem;">$0.00</span>
+      </div>
+
+      <div class="cart-footer-actions">
+        <a href="/checkout.html" id="cartDrawerCheckoutBtn" class="btn btn-primary btn-block btn-lg">
+          Proceed to Checkout <i class="bi bi-arrow-right"></i>
+        </a>
+        <a href="/cart.html" class="btn btn-outline btn-block btn-sm" onclick="Cart.closeDrawer()">
+          View Full Cart & Apply Coupons
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <div class="brand-icon"><i class="bi bi-bag-check-fill"></i></div>
+            <div class="brand-text">Shop<span>Nova</span></div>
+          </div>
+          <p class="footer-description">
+            Your destination for premium personal electronics, studio sound, timepieces, and modern workspace craftsmanship. Engineered with passion and delivered worldwide.
+          </p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon-btn" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="social-icon-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-icon-btn" aria-label="GitHub"><i class="bi bi-github"></i></a>
+            <a href="#" class="social-icon-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="#catalog">Shop All</a></li>
+            <li><a href="/cart.html">View Cart</a></li>
+            <li><a href="/orders.html">Track Orders</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Customer Care</h4>
+          <ul class="footer-links">
+            <li><a href="/profile.html">My Account</a></li>
+            <li><a href="/login.html">Sign In</a></li>
+            <li><a href="/register.html">Register</a></li>
+            <li><a href="/admin.html">Admin Portal</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Stay Connected</h4>
+          <p style="font-size:0.86rem; margin-bottom:12px;">Get exclusive drop alerts, private discounts, and early access to new releases.</p>
+          <form onsubmit="event.preventDefault(); showToast('Subscribed to VIP newsletter!', 'success'); this.reset();" style="display:flex; gap:8px;">
+            <input type="email" class="form-control" placeholder="Enter your email" required style="padding:8px 12px; font-size:0.86rem;">
+            <button type="submit" class="btn btn-primary btn-sm">Join</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 ShopNova E-Commerce Inc. All rights reserved. Built with Node.js, Express & SQLite.</div>
+        <div class="payment-badges">
+          <i class="bi bi-credit-card-2-front" title="Credit Cards"></i>
+          <i class="bi bi-paypal" title="PayPal"></i>
+          <i class="bi bi-shield-check" title="256-Bit SSL"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/products.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      ProductsManager.init();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - ShopNova</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body style="background-color:var(--bg-page);">
+
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a href="/index.html" class="brand-logo">
+        <div class="brand-icon" style="background:linear-gradient(135deg, #0f172a, #334155);"><i class="bi bi-shield-lock-fill"></i></div>
+        <div class="brand-text">ShopNova <span>Admin</span></div>
+      </a>
+
+      <div style="display:flex; align-items:center; gap:16px;">
+        <a href="/index.html" class="btn btn-outline btn-sm"><i class="bi bi-shop"></i> View Storefront</a>
+        <div id="nav-auth-container"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container" id="adminMainContainer" style="padding-top:36px; padding-bottom:60px;">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:16px;">
+        <div>
+          <h1 style="font-size:2rem; font-weight:800; color:var(--secondary); letter-spacing:-0.5px;">Store Management Dashboard</h1>
+          <p style="color:var(--text-muted); font-size:0.92rem;">Monitor store orders, inventory levels, and revenue performance</p>
+        </div>
+        <button class="btn btn-primary" onclick="AdminManager.openAddProductModal()">
+          <i class="bi bi-plus-circle"></i> Add New Product
+        </button>
+      </div>
+
+      <!-- KPI Metrics Cards Strip -->
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:20px; margin-bottom:36px;">
+        <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-sm);">
+          <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Total Revenue</div>
+          <div style="font-size:1.8rem; font-weight:800; color:var(--primary); margin-top:4px;" id="statRevenue">$0.00</div>
+          <div style="font-size:0.75rem; color:var(--success); margin-top:4px;"><i class="bi bi-arrow-up-right"></i> Live Settled Orders</div>
+        </div>
+
+        <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-sm);">
+          <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Total Orders</div>
+          <div style="font-size:1.8rem; font-weight:800; color:var(--secondary); margin-top:4px;" id="statOrders">0</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Across all shoppers</div>
+        </div>
+
+        <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-sm);">
+          <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Active Inventory</div>
+          <div style="font-size:1.8rem; font-weight:800; color:var(--secondary); margin-top:4px;" id="statProducts">0</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Products in catalog</div>
+        </div>
+
+        <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-sm);">
+          <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Low Stock Items</div>
+          <div style="font-size:1.8rem; font-weight:800; color:var(--warning); margin-top:4px;" id="statLowStock">0</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Units ≤ 10 remaining</div>
+        </div>
+      </div>
+
+      <!-- Orders Management Section -->
+      <section style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:28px; margin-bottom:36px; box-shadow:var(--shadow-sm);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:14px;">
+          <h3 style="font-size:1.25rem; font-weight:700; color:var(--secondary);"><i class="bi bi-box-seam" style="color:var(--primary); margin-right:8px;"></i> Customer Orders</h3>
+          <span style="font-size:0.82rem; color:var(--text-muted);">Change status directly in the dropdown below</span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="invoice-table" style="margin:0;">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status (Editable)</th>
+                <th>Invoice</th>
+              </tr>
+            </thead>
+            <tbody id="adminOrdersTableBody">
+              <!-- Populated by admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Products Management Section -->
+      <section style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:28px; box-shadow:var(--shadow-sm);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:14px;">
+          <h3 style="font-size:1.25rem; font-weight:700; color:var(--secondary);"><i class="bi bi-tags" style="color:var(--primary); margin-right:8px;"></i> Product Inventory</h3>
+          <span style="font-size:0.82rem; color:var(--text-muted);">Adjust stock count or remove items</span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="invoice-table" style="margin:0;">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock (Editable)</th>
+                <th>Rating</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminProductsTableBody">
+              <!-- Populated by admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Add Product Modal -->
+  <div class="modal-backdrop" id="addProductModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="AdminManager.closeAddProductModal()"><i class="bi bi-x-lg"></i></button>
+      <h3 style="font-size:1.35rem; font-weight:800; color:var(--secondary); margin-bottom:18px;">Add New Store Product</h3>
+      <form id="newProductForm">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="newProductTitle">Product Title *</label>
+            <input type="text" id="newProductTitle" class="form-control" placeholder="e.g. Wireless Ergonomic Mouse" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newProductCategory">Category *</label>
+            <select id="newProductCategory" class="form-control" required></select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newProductBrand">Brand</label>
+            <input type="text" id="newProductBrand" class="form-control" placeholder="NovaBrand">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newProductPrice">Price ($) *</label>
+            <input type="number" step="0.01" id="newProductPrice" class="form-control" placeholder="49.99" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newProductOrigPrice">Original Price ($) (Optional)</label>
+            <input type="number" step="0.01" id="newProductOrigPrice" class="form-control" placeholder="69.99">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newProductStock">Stock Quantity *</label>
+            <input type="number" id="newProductStock" class="form-control" value="25" min="1" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Featured Item?</label>
+            <div style="margin-top:8px;">
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                <input type="checkbox" id="newProductFeatured"> Show on Homepage Highlights
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="newProductImage">Image URL *</label>
+            <input type="url" id="newProductImage" class="form-control" placeholder="https://images.unsplash.com/..." required>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="newProductDescription">Product Description *</label>
+            <textarea id="newProductDescription" class="form-control" rows="3" placeholder="Detailed product overview..." required></textarea>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+          <button type="button" class="btn btn-outline" onclick="AdminManager.closeAddProductModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Create Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ShopNova E-Commerce Admin Portal.</div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AdminManager.init();
+    });
+  </script>
+</body>
+</html>

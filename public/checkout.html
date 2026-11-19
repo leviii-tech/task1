@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout - ShopNova</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-bar" style="height:64px;">
+      <a href="/index.html" class="brand-logo">
+        <div class="brand-icon"><i class="bi bi-bag-check-fill"></i></div>
+        <div class="brand-text">Shop<span>Nova</span></div>
+      </a>
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.88rem; color:var(--text-muted);">
+        <i class="bi bi-shield-lock-fill" style="color:var(--success);"></i> 256-Bit SSL Encrypted Checkout
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container" style="padding-top:36px; padding-bottom:60px;">
+      
+      <div style="margin-bottom:28px;">
+        <h1 style="font-size:2rem; font-weight:800; color:var(--secondary); letter-spacing:-0.5px;">Checkout</h1>
+        <p style="color:var(--text-muted); font-size:0.92rem;">Complete your order details below to receive your items</p>
+      </div>
+
+      <form id="checkoutForm">
+        <div class="checkout-grid">
+          <!-- Left Column: Checkout Steps -->
+          <div>
+
+            <!-- Step 1: Customer Contact & Shipping Address -->
+            <div class="checkout-card">
+              <div class="checkout-step-header">
+                <div class="step-num">1</div>
+                <div>
+                  <h3 style="font-size:1.15rem; font-weight:700; color:var(--secondary);">Shipping & Contact Details</h3>
+                  <p style="font-size:0.8rem; color:var(--text-muted);">Where should we deliver your order?</p>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label class="form-label" for="checkoutName">Full Name *</label>
+                  <input type="text" id="checkoutName" class="form-control" placeholder="e.g. John Doe" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="checkoutEmail">Email Address *</label>
+                  <input type="email" id="checkoutEmail" class="form-control" placeholder="john@example.com" required>
+                  <div class="form-text">We'll send order tracking & invoice receipt here</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="checkoutPhone">Phone Number</label>
+                  <input type="tel" id="checkoutPhone" class="form-control" placeholder="+1 (555) 000-0000">
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label class="form-label" for="checkoutAddress">Street Address *</label>
+                  <input type="text" id="checkoutAddress" class="form-control" placeholder="123 Innovation Blvd, Apt 4B" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="checkoutCity">City *</label>
+                  <input type="text" id="checkoutCity" class="form-control" placeholder="San Francisco" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="checkoutZip">Postal / ZIP Code *</label>
+                  <input type="text" id="checkoutZip" class="form-control" placeholder="94105" required>
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label class="form-label" for="checkoutCountry">Country *</label>
+                  <select id="checkoutCountry" class="form-control" required>
+                    <option value="United States">United States</option>
+                    <option value="Canada">Canada</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Germany">Germany</option>
+                    <option value="India">India</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Shipping Method -->
+            <div class="checkout-card">
+              <div class="checkout-step-header">
+                <div class="step-num">2</div>
+                <div>
+                  <h3 style="font-size:1.15rem; font-weight:700; color:var(--secondary);">Delivery Speed</h3>
+                  <p style="font-size:0.8rem; color:var(--text-muted);">Select your preferred shipping option</p>
+                </div>
+              </div>
+
+              <!-- Standard option -->
+              <div class="shipping-method-option selected" id="shipMethodStandard">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <i class="bi bi-box-seam" style="font-size:1.4rem; color:var(--primary);"></i>
+                  <div>
+                    <strong style="font-size:0.92rem; display:block;">Standard Delivery (3-5 Business Days)</strong>
+                    <span style="font-size:0.78rem; color:var(--text-muted);">Reliable insured courier tracking</span>
+                  </div>
+                </div>
+                <div style="font-weight:700; font-size:0.95rem;">FREE over $50</div>
+              </div>
+
+              <!-- Express option -->
+              <div class="shipping-method-option" id="shipMethodExpress">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <i class="bi bi-lightning-charge" style="font-size:1.4rem; color:var(--accent);"></i>
+                  <div>
+                    <strong style="font-size:0.92rem; display:block;">Priority Express (1-2 Business Days)</strong>
+                    <span style="font-size:0.78rem; color:var(--text-muted);">Air delivery with signature required</span>
+                  </div>
+                </div>
+                <div style="font-weight:700; font-size:0.95rem;">$14.99</div>
+              </div>
+            </div>
+
+            <!-- Step 3: Payment Method -->
+            <div class="checkout-card">
+              <div class="checkout-step-header">
+                <div class="step-num">3</div>
+                <div>
+                  <h3 style="font-size:1.15rem; font-weight:700; color:var(--secondary);">Payment Method</h3>
+                  <p style="font-size:0.8rem; color:var(--text-muted);">All transactions are simulated and 100% safe</p>
+                </div>
+              </div>
+
+              <div class="payment-tab-buttons">
+                <button type="button" class="payment-tab-btn active" data-method="Credit / Debit Card">
+                  <i class="bi bi-credit-card"></i> Credit Card
+                </button>
+                <button type="button" class="payment-tab-btn" data-method="Cash on Delivery">
+                  <i class="bi bi-cash-stack"></i> Cash on Delivery
+                </button>
+                <button type="button" class="payment-tab-btn" data-method="Instant Demo Pay">
+                  <i class="bi bi-wallet2"></i> Instant Pay
+                </button>
+              </div>
+
+              <!-- Credit Card Simulation Container -->
+              <div id="cardDetailsContainer">
+                <div class="card-simulator-box">
+                  <div class="card-sim-chip"></div>
+                  <div class="card-sim-number" id="cardSimNumber">4242 •••• •••• 4242</div>
+                  <div class="card-sim-meta">
+                    <div>
+                      <div>Cardholder</div>
+                      <div class="val" id="cardSimName">JOHN DOE</div>
+                    </div>
+                    <div>
+                      <div>Expires</div>
+                      <div class="val" id="cardSimExpiry">12/28</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                  <div class="form-group" style="grid-column: 1 / -1;">
+                    <label class="form-label" for="cardNumberInput">Card Number</label>
+                    <input type="text" id="cardNumberInput" class="form-control" placeholder="4242 4242 4242 4242" value="4242 4242 4242 4242" required>
+                  </div>
+                  <div class="form-group" style="grid-column: 1 / -1;">
+                    <label class="form-label" for="cardNameInput">Name on Card</label>
+                    <input type="text" id="cardNameInput" class="form-control" placeholder="John Doe" value="John Doe" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cardExpiryInput">Expiry Date (MM/YY)</label>
+                    <input type="text" id="cardExpiryInput" class="form-control" placeholder="12/28" value="12/28" maxlength="5" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cardCvvInput">CVV / CVC</label>
+                    <input type="password" id="cardCvvInput" class="form-control" placeholder="123" value="123" maxlength="4" required>
+                  </div>
+                </div>
+              </div>
+
+              <div id="codNoticeContainer" style="display:none; padding:16px; background:var(--bg-alt); border-radius:var(--radius-md); font-size:0.88rem; color:var(--text-muted);">
+                <i class="bi bi-info-circle-fill" style="color:var(--primary);"></i> You will pay in cash or via card swipe upon delivery at your doorstep. Please ensure exact change if paying with cash.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Live Order Summary -->
+          <div>
+            <div class="checkout-card" style="position:sticky; top:96px;">
+              <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:16px; border-bottom:1px solid var(--border-color); padding-bottom:12px;">Order Summary</h3>
+
+              <!-- Cart items list preview -->
+              <div id="checkoutItemsList" style="max-height:280px; overflow-y:auto; margin-bottom:16px; border-bottom:1px solid var(--border-color); padding-bottom:12px;">
+                <!-- Populated by checkout.js -->
+              </div>
+
+              <!-- Promo Code Box -->
+              <div style="margin-bottom:16px;">
+                <label class="form-label" style="font-size:0.82rem;">Promo Code</label>
+                <div style="display:flex; gap:8px;">
+                  <input type="text" id="checkoutPromoInput" class="form-control" placeholder="e.g. SAVE10" style="text-transform:uppercase; font-size:0.88rem;">
+                  <button type="button" class="btn btn-outline btn-sm" onclick="Checkout.applyCheckoutPromo()">Apply</button>
+                </div>
+              </div>
+
+              <!-- Cost breakdown -->
+              <div style="display:flex; flex-direction:column; gap:10px; font-size:0.9rem; color:var(--text-muted);">
+                <div style="display:flex; justify-content:space-between;">
+                  <span>Subtotal</span>
+                  <span id="checkoutSubtotal" style="font-weight:600; color:var(--text-main);">$0.00</span>
+                </div>
+                <div style="display:none; justify-content:space-between; color:var(--success);" id="checkoutDiscountRow">
+                  <span>Discount</span>
+                  <span id="checkoutDiscountVal" style="font-weight:600;">-$0.00</span>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                  <span>Shipping</span>
+                  <span id="checkoutShipping" style="font-weight:600; color:var(--text-main);">FREE</span>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                  <span>Sales Tax (8%)</span>
+                  <span id="checkoutTax" style="font-weight:600; color:var(--text-main);">$0.00</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:1px dashed var(--border-color); padding-top:12px; margin-top:4px;">
+                  <span style="font-size:1.1rem; font-weight:800; color:var(--secondary);">Total Amount</span>
+                  <span id="checkoutTotal" style="font-size:1.45rem; font-weight:800; color:var(--primary);">$0.00</span>
+                </div>
+              </div>
+
+              <button type="submit" id="placeOrderBtn" class="btn btn-primary btn-block btn-lg" style="margin-top:24px;">
+                Complete Order & Pay <i class="bi bi-shield-check"></i>
+              </button>
+
+              <div style="text-align:center; margin-top:14px; font-size:0.78rem; color:var(--text-light);">
+                By placing this order you agree to our Terms of Service & Privacy Policy
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <div id="toast-container"></div>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ShopNova E-Commerce Inc. All rights reserved.</div>
+      <div class="payment-badges">
+        <i class="bi bi-shield-lock"></i> 100% Secure Checkout
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/checkout.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Checkout.init();
+    });
+  </script>
+</body>
+</html>

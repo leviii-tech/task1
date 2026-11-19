@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account - ShopNova</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body style="background-color:var(--bg-alt);">
+
+  <header class="site-header">
+    <div class="container nav-bar" style="height:64px;">
+      <a href="/index.html" class="brand-logo">
+        <div class="brand-icon"><i class="bi bi-bag-check-fill"></i></div>
+        <div class="brand-text">Shop<span>Nova</span></div>
+      </a>
+      <a href="/index.html" class="btn btn-outline btn-sm"><i class="bi bi-arrow-left"></i> Back to Store</a>
+    </div>
+  </header>
+
+  <main class="main-content" style="display:flex; align-items:center; justify-content:center; padding: 48px 20px;">
+    <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:36px; max-width:540px; width:100%; box-shadow:var(--shadow-md);">
+      
+      <div style="text-align:center; margin-bottom:24px;">
+        <h1 style="font-size:1.6rem; font-weight:800; color:var(--secondary); margin-bottom:6px;">Create Your Account</h1>
+        <p style="color:var(--text-muted); font-size:0.88rem;">Enjoy express checkout, order tracking, and exclusive discounts</p>
+      </div>
+
+      <form id="registerForm">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="regName">Full Name *</label>
+            <input type="text" id="regName" class="form-control" placeholder="Jane Doe" required>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="regEmail">Email Address *</label>
+            <input type="email" id="regEmail" class="form-control" placeholder="jane@example.com" required>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="regPassword">Password *</label>
+            <input type="password" id="regPassword" class="form-control" placeholder="Minimum 6 characters" minlength="6" required>
+            <div class="form-text">Must be at least 6 characters long</div>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="regPhone">Phone Number</label>
+            <input type="tel" id="regPhone" class="form-control" placeholder="+1 (555) 123-4567">
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="regAddress">Street Address</label>
+            <input type="text" id="regAddress" class="form-control" placeholder="456 Tech Park Way">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regCity">City</label>
+            <input type="text" id="regCity" class="form-control" placeholder="Austin">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regZip">ZIP / Postal Code</label>
+            <input type="text" id="regZip" class="form-control" placeholder="78701">
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="regCountry">Country</label>
+            <select id="regCountry" class="form-control">
+              <option value="United States">United States</option>
+              <option value="Canada">Canada</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Australia">Australia</option>
+              <option value="Germany">Germany</option>
+              <option value="India">India</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" id="regSubmitBtn" class="btn btn-primary btn-block btn-lg" style="margin-top:20px;">
+          Create Account & Start Shopping <i class="bi bi-arrow-right"></i>
+        </button>
+      </form>
+
+      <div style="text-align:center; margin-top:24px; font-size:0.88rem; color:var(--text-muted);">
+        Already have an account? 
+        <a href="/login.html" style="color:var(--primary); font-weight:600;">Sign in here</a>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const phone = document.getElementById('regPhone').value.trim();
+      const address = document.getElementById('regAddress').value.trim();
+      const city = document.getElementById('regCity').value.trim();
+      const postal_code = document.getElementById('regZip').value.trim();
+      const country = document.getElementById('regCountry').value;
+      const btn = document.getElementById('regSubmitBtn');
+
+      if (!name || !email || !password) {
+        showToast('Please fill in required fields.', 'warning');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="bi bi-arrow-repeat" style="animation:spin 1s infinite linear;"></i> Creating account...`;
+
+      try {
+        const res = await Auth.register({
+          name, email, password, phone, address, city, postal_code, country
+        });
+
+        if (res.success) {
+          showToast('Account created successfully! Welcome to ShopNova.', 'success');
+          setTimeout(() => {
+            window.location.href = '/index.html';
+          }, 500);
+        }
+      } catch (err) {
+        showToast(err.message || 'Registration failed.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = `Create Account & Start Shopping <i class="bi bi-arrow-right"></i>`;
+      }
+    });
+  </script>
+</body>
+</html>
